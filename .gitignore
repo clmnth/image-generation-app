@@ -6,7 +6,7 @@
 .pnp.js
 
 # API key
-.api.js
+api.js
 
 # wierd
 /.DS_Store
