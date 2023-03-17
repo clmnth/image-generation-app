@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 
-# API key
+# Ignore the api.js file
 api.js
 
 # wierd
