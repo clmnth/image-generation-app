@@ -13,7 +13,7 @@ function App() {
 
   // const openai = new OpenAIApi(configuration);
 
-  // Mock response
+  Mock response
   const generateMockImage = async () => {
     return {
       data: {
