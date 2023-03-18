@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function App() {
   const [prompt, setPrompt] = useState("");
-  const [result, setResult] = useState("");
+  const [imageUrl, setImageURL] = useState('');
 
   // const configuration = new Configuration({
   //   apiKey: OPENAI_API_KEY,
@@ -27,15 +27,19 @@ function App() {
   };
 
   const generateImage = async () => {
+    try {
     // const response = await openai.createImage({
     //   prompt: prompt,
     //   n: 1,
-    //   size: "524x524",
+    //   size: "1024x1024",
     // });
     const response = await generateMockImage(); // Mock response
     console.log(response);
 
-    setResult(response.data.data[0].url);
+    setImageURL(response.data.data[0].url);
+  } catch(error) {
+    console.error(error);
+  }
   };
 
   return (
@@ -59,8 +63,12 @@ function App() {
           Generate an image
         </button>
       </form>
-      {result.length > 0 ? (
-        <img className="result-image" src={result} alt="result"></img>
+      {imageUrl.length > 0 ? (
+        <img
+          className="result-image"
+          src={imageUrl}
+          alt={prompt}
+        ></img>
       ) : (
         <></>
       )}
