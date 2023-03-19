@@ -5,7 +5,8 @@ import { useState } from "react";
 
 function App() {
   const [prompt, setPrompt] = useState("");
-  const [imageUrl, setImageURL] = useState('');
+  const [imageUrl, setImageURL] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const configuration = new Configuration({
   //   apiKey: OPENAI_API_KEY,
@@ -13,7 +14,8 @@ function App() {
 
   // const openai = new OpenAIApi(configuration);
 
-  //Mock response
+  // Mock response
+
   const generateMockImage = async () => {
     return {
       data: {
@@ -28,50 +30,62 @@ function App() {
 
   const generateImage = async () => {
     try {
-    // const response = await openai.createImage({
-    //   prompt: prompt,
-    //   n: 1,
-    //   size: "1024x1024",
-    // });
-    const response = await generateMockImage(); // Mock response
-    console.log(response);
+      // setLoading(true);
+      // const response = await openai.createImage({
+      //   prompt: prompt,
+      //   n: 1,
+      //   size: "1024x1024",
+      // });
+      const response = await generateMockImage(); // Mock response
+      console.log(response);
 
-    setImageURL(response.data.data[0].url);
-  } catch(error) {
-    console.error(error);
-  }
+      setImageURL(response.data.data[0].url);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="App">
-      <h3 className="title">
-        <i className="fa fa-image"></i> Generate an image with OpenAI
-      </h3>
+      <div className="header">
+        <h3 className="title">
+          <i className="fa fa-image"></i> Generate an image with OpenAI
+        </h3>
+      </div>
+
       <form
         className="app-form"
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
-        <textarea
+        <input
           className="app-input"
           placeholder="Type something..."
           onChange={(e) => setPrompt(e.target.value)}
           required
-        ></textarea>
+        ></input>
         <button type="button" className="app-button" onClick={generateImage}>
-          Generate an image
+          Generate
         </button>
       </form>
-      {imageUrl.length > 0 ? (
-        <img
-          className="result-image"
-          src={imageUrl}
-          alt={prompt}
-        ></img>
-      ) : (
-        <></>
-      )}
+      <div className="result-container">
+        {loading ? (
+          <div className="loading-message">
+            We're creating your image now. Sit Tight!
+          </div>
+          
+        ) : (
+          <div className="result-image-container">
+            {imageUrl.length > 0 ? (
+              <img className="result-image" src={imageUrl} alt={prompt}></img>
+            ) : (
+              <></>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
