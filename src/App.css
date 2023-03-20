@@ -1,11 +1,5 @@
 .App {
-  height: 100vh;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto; */
+  font-family: Poppins, Helvetica, sans-serif;
 }
 
 .header {
@@ -25,14 +19,14 @@
 .app-form {
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem;;
+  /* margin-bottom: 1.5rem;; */
 }
 
 .app-input {
   width: 100%;
   border-radius: 0.5rem;
   height: 1.9rem;
-  width: 70%;
+  width: 50%;
   border: none;
   background-color: #e2e2ef;
   color: rgb(49, 49, 49);
@@ -62,21 +56,29 @@
   font-family: Poppins, Helvetica, sans-serif;
 }
 
-
-
 .result-container {
   display: relative;
+  margin-top: 0;
 }
 
-.loading-message {
+.loading-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #eee;
+  justify-content: center;
+  background-color: #fafafc;
   text-align: center;
   height: 500px;
-  margin: 0 6rem;
-  font-size: 1.5rem;
+  margin: 1rem 6rem 0; 
+}
+
+.loading-icon {
+ font-size: 1.8rem;
+}
+
+.loading-copy {
+  font-family: Poppins, Helvetica, sans-serif;
+  font-weight: 500;
+  margin-top: 1rem;
 }
 
 .result-image-container {
@@ -93,11 +95,11 @@
 }
 
 footer {
-  margin: 1rem 1.5rem;
+  margin-top: 1rem;
   text-align: center;
   font-size: 0.7rem;
   font-weight: bold;
-  color: white;
+  color: rgb(49, 49, 49);
 }
 
 .fa-code {
@@ -105,5 +107,18 @@ footer {
 }
 
 .footer-link {
-  color: white;
+  color: rgb(49, 49, 49);
+}
+
+@media screen and (max-width: 340px) {
+  .title {
+    font-size: 0.8rem;
+  }
+  .loading-icon {
+   font-size: 1.8rem;
+  }
+  .loading-copy {
+    display: none;
+  }
+  
 }
