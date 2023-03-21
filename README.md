@@ -2,14 +2,7 @@
 
 A simple image search app using the Unsplash API.
 <br />
-Live version [here](https://clmnth.github.io/image-search-app/). 
-
-## Features
-
-• Feature #1
+A [freeCodeCamp](https://www.youtube.com/watch?v=98bGwOYoEGg) project.
 <br />
-• Feature #2
-<br />
-• Feature #3
+ 
 
-## Screenshots

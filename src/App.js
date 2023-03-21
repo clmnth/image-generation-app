@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import { OPENAI_API_KEY } from "./api";
 
@@ -7,6 +7,8 @@ function App() {
   const [prompt, setPrompt] = useState("");
   const [imageUrl, setImageURL] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); 
+  const [lastPrompt, setLastPrompt] = useState("");
 
   const configuration = new Configuration({
     apiKey: OPENAI_API_KEY,
@@ -29,11 +31,13 @@ function App() {
   // };
 
   const generateImage = async () => {
+    if (!prompt) {
+      return;
+    }
+    setLoading(true); 
+    setError("");
+
     try {
-      if (!prompt) {
-        return
-      }
-      setLoading(true);
       const response = await openai.createImage({
         prompt: prompt,
         n: 1,
@@ -43,9 +47,14 @@ function App() {
       console.log(response);
 
       setImageURL(response.data.data[0].url);
-      setLoading(false);
+      setLastPrompt(prompt); // v2
+      setPrompt(""); // v2
+      document.querySelector(".app-input").value = "";
     } catch (error) {
       console.error(error);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,11 +76,18 @@ function App() {
           className="app-input"
           placeholder="Type something..."
           onChange={(e) => setPrompt(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevents the form from submitting
+              generateImage();
+            }
+          }}
         ></input>
         <button type="button" className="app-button" onClick={generateImage}>
           Generate
         </button>
       </form>
+
       <div className="result-container">
         {loading ? (
           <div className="loading-container">
@@ -79,21 +95,62 @@ function App() {
               <div className="loading-icon">
                 <i className="fa fa-spinner"></i>
               </div>
-              <h3 className="loading-copy">
-                {" "}
-                We're creating your image now...
-              </h3>
+              <h3 className="loading-copy">We're creating your image now...</h3>
             </div>
           </div>
         ) : (
-          <div className="result-image-container">
-            {imageUrl.length > 0 ? (
-              <img className="result-image" src={imageUrl} alt={prompt}></img>
+          <>
+            {error ? (
+              <div className="error-container">
+                <div className="error-content">
+                  <div className="error-icon">
+                    <i className="fa fa-exclamation"></i>
+                  </div>
+                  <div className="error-message">{error}</div>
+                </div>
+              </div>
             ) : (
-              <></>
+              <>
+                {imageUrl.length > 0 ? (
+                  <div className="result-container">
+                  <div className="result-content">
+                    <div className="result-copy">
+                      <p>Your result for: {lastPrompt}</p>
+                    </div>
+                    <div className="result-img">
+                      <img
+                        className="result-image"
+                        src={imageUrl}
+                        alt={prompt}
+                      ></img>
+                    </div>
+                  </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
             )}
-          </div>
+          </>
         )}
+      </div>
+      <div>
+      <footer>
+  <div className="text-footer">
+    <i className="fa fa-code"></i> Coded by{" "}
+    <u>
+      <a className="footer-link" href="https://github.com/clmnth" target="_blank">
+        clmnt
+      </a>
+    </u>{" "}
+    - Powered by{" "}
+    <u>
+      <a className="footer-link" href="https://openai.com/" target="_blank">
+        OpenAI
+      </a>
+    </u>
+  </div>
+</footer>
       </div>
     </div>
   );
